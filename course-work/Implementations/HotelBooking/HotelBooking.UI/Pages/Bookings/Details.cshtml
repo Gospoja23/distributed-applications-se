@@ -1,0 +1,27 @@
+﻿@page "{id:int}"
+@model HotelBooking.UI.Pages.Bookings.DetailsModel
+@{
+    ViewData["Title"] = "Детали бронирования";
+}
+
+<h1>Детали бронирования</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">RoomId</dt>
+    <dd class="col-sm-10">@Model.Booking.RoomId</dd>
+
+    <dt class="col-sm-2">Гость</dt>
+    <dd class="col-sm-10">@Model.Booking.GuestName</dd>
+
+    <dt class="col-sm-2">Заезд</dt>
+    <dd class="col-sm-10">@Model.Booking.CheckInDate.ToShortDateString()</dd>
+
+    <dt class="col-sm-2">Выезд</dt>
+    <dd class="col-sm-10">@Model.Booking.CheckOutDate.ToShortDateString()</dd>
+
+    <dt class="col-sm-2">Итоговая цена</dt>
+    <dd class="col-sm-10">@Model.Booking.TotalPrice</dd>
+</dl>
+
+<a asp-page="Index" class="btn btn-secondary">Назад</a>
+<a asp-page="Edit" asp-route-id="@Model.Booking.Id" class="btn btn-primary">Редактировать</a>

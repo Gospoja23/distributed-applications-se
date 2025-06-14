@@ -1,0 +1,34 @@
+﻿@page "{id:int}"
+@model HotelBooking.UI.Pages.Bookings.DeleteModel
+@{
+    ViewData["Title"] = "Удалить бронирование";
+}
+
+<h1>Удалить бронирование</h1>
+
+<div class="alert alert-danger">
+    Вы уверены, что хотите удалить это бронирование?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">RoomId</dt>
+    <dd class="col-sm-10">@Model.Booking.RoomId</dd>
+
+    <dt class="col-sm-2">Гость</dt>
+    <dd class="col-sm-10">@Model.Booking.GuestName</dd>
+
+    <dt class="col-sm-2">Заезд</dt>
+    <dd class="col-sm-10">@Model.Booking.CheckInDate.ToShortDateString()</dd>
+
+    <dt class="col-sm-2">Выезд</dt>
+    <dd class="col-sm-10">@Model.Booking.CheckOutDate.ToShortDateString()</dd>
+
+    <dt class="col-sm-2">Итоговая цена</dt>
+    <dd class="col-sm-10">@Model.Booking.TotalPrice</dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" asp-for="Booking.Id" />
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-page="Index" class="btn btn-secondary">Отмена</a>
+</form>

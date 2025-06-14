@@ -1,0 +1,74 @@
+﻿@page
+@model HotelBooking.UI.Pages.Bookings.IndexModel
+@{
+    ViewData["Title"] = "Список бронирований";
+}
+
+<h1>Бронирования</h1>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto"><input asp-for="SearchGuest" class="form-control" placeholder="По гостю" /></div>
+    <div class="col-auto">
+        <input asp-for="RoomId" type="number" class="form-control" placeholder="RoomId" />
+    </div>
+    <div class="col-auto">
+        <select asp-for="SortBy" class="form-select">
+            <option value="CheckInDate">По заезду</option>
+            <option value="CheckOutDate">По выезду</option>
+        </select>
+    </div>
+    <div class="col-auto form-check">
+        <input asp-for="IsDesc" class="form-check-input" />
+        <label asp-for="IsDesc" class="form-check-label">Обратный порядок</label>
+    </div>
+    <div class="col-auto"><button class="btn btn-primary">Применить</button></div>
+</form>
+
+<a asp-page="Create" class="btn btn-success mb-3">Добавить бронирование</a>
+
+<table class="table">
+    <thead>
+        <tr><th>Гость</th><th>RoomId</th><th>Заезд</th><th>Выезд</th><th>Итог</th><th>Действия</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model.PagedBookings.Items)
+        {
+            <tr>
+                <td>@b.GuestName</td>
+                <td>@b.RoomId</td>
+                <td>@b.CheckInDate.ToShortDateString()</td>
+                <td>@b.CheckOutDate.ToShortDateString()</td>
+                <td>@b.TotalPrice</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@b.Id" class="btn btn-sm btn-info">Подробнее</a>
+                    <a asp-page="Edit" asp-route-id="@b.Id" class="btn btn-sm btn-primary">Ред.</a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@b.Id"
+                          onsubmit="return confirm('Удалить бронирование?');" style="display:inline">
+                        <button class="btn btn-sm btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        @{
+            int total = (int)Math.Ceiling((double)Model.PagedBookings.TotalItems / Model.PageSize);
+            for (int i = 1; i <= total; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link"
+                       asp-route-Page="@i"
+                       asp-route-SearchGuest="@Model.SearchGuest"
+                       asp-route-RoomId="@Model.RoomId"
+                       asp-route-SortBy="@Model.SortBy"
+                       asp-route-IsDesc="@Model.IsDesc"
+                       asp-route-PageSize="@Model.PageSize">@i</a>
+                </li>
+                ;
+            }
+        }
+    </ul>
+</nav>
